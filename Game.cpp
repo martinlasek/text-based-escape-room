@@ -1,10 +1,15 @@
 #include <iostream>
+#include <ctime>
 
 /// Outputs level description to the terminal.
 /// Takes user input (answer) and checks against level answer.
 /// Increments level counter `CurrentLevel` when level is completed.
-void PlayLevel(int *CurrentLevel, int CodeA, int CodeB, int CodeC)
+void PlayLevel(int *CurrentLevel)
 {
+  const int CodeA = rand() % *CurrentLevel + *CurrentLevel;
+  const int CodeB = rand() % *CurrentLevel + *CurrentLevel;
+  const int CodeC = rand() % *CurrentLevel + *CurrentLevel;
+
   const int CodeSum = CodeA + CodeB + CodeC;
   const int CodeProduct = CodeA * CodeB * CodeC;  
 
@@ -46,26 +51,7 @@ void Play(bool *IsGameComplete)
 
   while (CurrentLevel <= MaxLevel)
   {
-
-    switch (CurrentLevel)
-    {
-      case 1:
-        PlayLevel(&CurrentLevel, 1, 3, 5);
-        break;
-
-      case 2:
-        PlayLevel(&CurrentLevel, 3, 5, 7);
-        break;
-
-      case 3:
-        PlayLevel(&CurrentLevel, 5, 7, 11);
-        break;
-
-      default:
-        std::cout << std::endl << "Something went wrong.. okay wow. Are you a hacker?";
-        CurrentLevel = MaxLevel + 1;
-        break;
-    }
+    PlayLevel(&CurrentLevel);
   }
 
   *IsGameComplete = true;
@@ -77,6 +63,9 @@ int main()
   std::cout << "You woke up in a locked up room. To escape you need to enter the right code!" << std::endl;
   std::cout << "Enter a three digit code to escape the room." << std::endl;
   
+  // Seed randomizer
+  srand(time(NULL));
+
   bool isGameComplete = false;
   
   while(!isGameComplete)
